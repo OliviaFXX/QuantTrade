@@ -44,8 +44,13 @@ body{font-family:-apple-system,"Microsoft YaHei","PingFang SC",sans-serif;backgr
 
 /* ===== Features ===== */
 .features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:800px;width:100%;padding:0 40px;margin-bottom:60px;justify-items:center}
-.feature-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:28px 24px;transition:all 0.2s;cursor:default;width:100%;max-width:240px;text-align:center}
+.feature-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:28px 24px;transition:all 0.2s;cursor:default;width:100%;max-width:240px;text-align:center;position:relative}
 .feature-card:hover{border-color:#30363d;transform:translateY(-2px)}
+.feature-card.clickable{cursor:pointer}
+.feature-card.clickable::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1f6feb,#58a6ff);opacity:0;transition:opacity 0.2s}
+.feature-card.clickable:hover::before{opacity:1}
+.feature-card .go{color:#8b949e;font-size:14px;margin-top:4px;transition:color 0.15s}
+.feature-card.clickable:hover .go{color:#58a6ff}
 .feature-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;background:linear-gradient(135deg,rgba(31,111,235,0.15),rgba(88,166,255,0.15))}
 .feature-card h3{font-size:14px;color:#f0f6ff;margin-bottom:8px;font-weight:600}
 .feature-card p{font-size:12px;color:#8b949e;line-height:1.6}
@@ -125,20 +130,21 @@ body{font-family:-apple-system,"Microsoft YaHei","PingFang SC",sans-serif;backgr
         </div>
       </div>
     </div>
-    <button class="hero-view-btn" onclick="viewStock()">查看分析</button>
   </div>
 
   <!-- Feature Cards -->
   <div class="features">
-    <div class="feature-card">
+    <div class="feature-card clickable" onclick="viewStock()">
       <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></div>
-      <h3>技术指标分析</h3>
+      <h3>技术指标分析（Task2）</h3>
       <p>RSI、MACD、布林带、ATR 四大核心指标，多维度研判买卖信号</p>
+      <span class="go">查看分析 →</span>
     </div>
-    <div class="feature-card">
+    <div class="feature-card clickable" onclick="viewBacktest()">
       <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div>
-      <h3>K线均线系统</h3>
-      <p>MA5/10/20/60 均线系统，结合布林带通道，精准捕捉趋势变化</p>
+      <h3>双均线策略回测（Task3）</h3>
+      <p>双均线金叉/死叉回测，保守 / 稳健 / 激进三策略收益对比</p>
+      <span class="go">回测分析 →</span>
     </div>
     <div class="feature-card">
       <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
@@ -217,6 +223,14 @@ function viewStock() {
   } else {
     alert('暂不支持该股票：' + selectedStock.name);
   }
+}
+
+function viewBacktest() {
+  // 双均线回测页面目前仅生成长江电力（600900.SH）数据
+  if (selectedStock.code !== '600900.SH') {
+    alert('双均线回测分析目前仅支持长江电力（600900.SH）');
+  }
+  window.location.href = '../Task3-2026705/600900_SH_backtest.html';
 }
 
 // Close dropdown on outside click
